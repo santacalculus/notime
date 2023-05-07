@@ -68,7 +68,9 @@ function updateTime(response) {
     let finalresponse = response.final_time
     let finaldiv = document.getElementById("id_final_time")
     finaldiv.innerHTML = finalresponse
-    
+    let date = response.date
+    let datediv = document.getElementById("id_date_today")
+    datediv.innerHTML = date
     
 }
 
