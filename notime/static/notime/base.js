@@ -214,11 +214,50 @@ function speedometer() {
         .cornerRadius(radius/10);
         
     svg_semi.append("path")
+    .attr("id","speedo")
     .attr("transform", `translate(${centerx}, ${centery})`)
     .attr("d", arc)
     .attr("fill", "url(#gradient)")
     .attr("stroke", "#333")
     .attr("stroke-width", 3);
+
+    svg_semi.append("text")
+            .attr("dy", -10)
+            .append("textPath")
+            .attr("xlink:href", "#speedo")
+            .style("text-anchor","middle")
+            .attr("startOffset", "10%")
+            
+            .text("Quiet")
+            .attr("fill", "white");
+
+    svg_semi.append("text")
+    .attr("dy", -10)
+    .append("textPath")
+    .attr("xlink:href", "#speedo")
+    .style("text-anchor","middle")
+    .attr("startOffset", "21%")
+    .text("Normal")
+    .attr("fill", "white");
+
+    svg_semi.append("text")
+    .attr("dy", -10)
+    .append("textPath")
+    .attr("xlink:href", "#speedo")
+    .style("text-anchor","middle")
+    .attr("startOffset", "38%")
+    .text("Active")
+    .attr("fill", "white");
+
+    svg_semi.append("text")
+    .attr("dy", -10)
+    .append("textPath")
+    .attr("xlink:href", "#speedo")
+    .style("text-anchor","middle")
+    .attr("startOffset", "50%")
+    .text("Busy")
+    .attr("fill", "white");
+
     needle();
 
 }

@@ -116,14 +116,17 @@ def get_num_action(request) :
     wait_data = WaitTime.objects.latest('id').wait_time
     #creation_data = WaitTime.objects.latest('id').creation_time
     creation_data = wait.creation_time
-    wait.creation_time = timezone.now()
+    wait.creation_time = timezone.localtime(timezone.now())
     wait.save()
     final_data = timedelta(seconds=wait_data)+wait.creation_time #converting wait_time seconds to minutes+seconds
     response_data = {}
     response_data['num_people'] = Line.objects.latest('id').num_people
     response_data['max_people'] = Line.objects.latest('id').max_people
     response_data['wait_time'] = wait_data
+    
+    print(wait.creation_time)
     response_data['creation_time'] = wait.creation_time.strftime('%H:%M:%S %p')
+    # print(response_data['creation_time'])
     response_data['final_time'] = final_data.strftime('%H:%M:%S %p') #the time at which the wait ends
     #response_data['creation_time'] = WaitTime.objects.latest('id').creation_time
     response_json = json.dumps(response_data) 
