@@ -77,6 +77,14 @@ function displayError(message) {
     errorElement.innerHTML = message
 }
 
+function checks() {
+    checkPrima()
+    checkExchange()
+    checkEntropy()
+    checkABP()
+    checkMillies()
+    checkRohr()
+}
 
 // function to check whether the dining hall is open
 function checkPrima() {
@@ -84,6 +92,7 @@ function checkPrima() {
     var hours = d.getHours();
     var day = d.getDay();
     let headerdiv = document.getElementById("id_prima_head")
+    headerdiv.innerHTML = ""
     if(1 < day && day < 5) {
         //console.log(day)
         if(8 <= hours && hours <= 18) {
@@ -91,10 +100,117 @@ function checkPrima() {
             
             headerdiv.innerHTML = "OPEN"
         }
+        
     } else {
         headerdiv.innerHTML = "CLOSED"
     }
+}
 
+// function to check whether the dining hall is open
+function checkRohr() {
+    var d = new Date(); 
+    var hours = d.getHours();
+    var day = d.getDay();
+    let headerdiv = document.getElementById("id_rohr_head")
+    headerdiv.innerHTML = ""
+    if(1 < day && day < 5) {
+        //console.log(day)
+        if(11 <= hours && hours <= 15) {
+            //console.log(hours)
+            headerdiv.innerHTML = "OPEN"
+            headerdiv.classList.add("blinking")
+        }
+        if(17 <= hours && hours <= 25) {
+            //console.log(hours)
+            headerdiv.innerHTML = "OPEN"
+            headerdiv.classList.add("blinking")
+        }
+    } else {
+        headerdiv.innerHTML = "CLOSED"
+        headerdiv.classList.remove("blinking")
+    }
+}
+
+// function to check whether the dining hall is open
+function checkExchange() {
+    var d = new Date(); 
+    var hours = d.getHours();
+    var day = d.getDay();
+    let headerdiv = document.getElementById("id_exchange_head")
+    headerdiv.innerHTML = ""
+    if(1 < day && day < 5) {
+        //console.log(day)
+        if(8 <= hours && hours <= 19) {
+            //console.log(hours) 
+            headerdiv.innerHTML = "OPEN"
+            headerdiv.classList.add("blinking")
+        } else {
+            headerdiv.classList.remove("blinking")
+        }
+    } else {
+        headerdiv.innerHTML = "CLOSED"
+        headerdiv.classList.remove("blinking")
+    }
+}
+
+// function to check whether the dining hall is open
+function checkMillies() {
+    var d = new Date(); 
+    var hours = d.getHours();
+    var day = d.getDay();
+    let headerdiv = document.getElementById("id_millies_head")
+    headerdiv.innerHTML = ""
+    if(1 < day && day < 6) {
+        //console.log(day)
+        if(9 <= hours && hours <= 22) {
+            //console.log(hours) 
+            headerdiv.innerHTML = "OPEN"
+            headerdiv.classList.add("blinking")
+        } else {
+            headerdiv.classList.remove("blinking")
+        }
+    } else {
+        headerdiv.innerHTML = "CLOSED"
+        headerdiv.classList.remove("blinking")
+    }
+}
+
+function checkEntropy(){
+    var d = new Date(); 
+    var hours = d.getHours();
+    var day = d.getDay();
+    let headerdiv = document.getElementById("id_entropy_head")
+    headerdiv.innerHTML = ""
+    
+        //console.log(day)
+    if(7 <= hours && hours <= 23) {
+        //console.log(hours) 
+        headerdiv.innerHTML = "OPEN"
+        headerdiv.classList.add("blinking")
+    } 
+    else {
+        headerdiv.innerHTML = "CLOSED"
+        headerdiv.classList.remove("blinking")
+    }
+}
+
+function checkABP(){
+    var d = new Date(); 
+    var hours = d.getHours();
+    var day = d.getDay();
+    let headerdiv = document.getElementById("id_ABP_head")
+    headerdiv.innerHTML = ""
+    
+        //console.log(day)
+    if(7 <= hours && hours <= 23) {
+        //console.log(hours) 
+        headerdiv.innerHTML = "OPEN"
+        headerdiv.classList.add("blinking")
+    } 
+    else {
+        headerdiv.innerHTML = "CLOSED"
+        headerdiv.classList.remove("blinking")
+    }
 }
 
 function imageGen() {
