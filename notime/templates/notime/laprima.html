@@ -41,7 +41,7 @@
                         </tr>
                         <tr>
                             <td class="begin" style="border-top: 1px dashed;
-                            border-bottom: 1px dashed;"></td>
+                            border-bottom: 1px dashed; color: red;"></td>
                             <td class="name" style="font-size: 1.5rem;
                             font-weight: 700;
                             color: red;
@@ -53,14 +53,11 @@
                     </tbody>
                 </table>
                 {% load static %}
-                <div class="row">
+                <div class="row" style="margin-top: 5%">
                     <div class="col-4">
                         <img src="{% static 'notime/myproject.png' %}"  id="id_user_picture">
                     </div>
-                    <div class="col-8" id="id_image_container">
-                        
-                        
-                        
+                    <div class="col-8" id="id_image_container" imgURL="{% static 'notime/personicon.png' %}">
                     </div>
                     
                     <p style="font-weight:700; text-align: center;"><span style="font-size: 250%; color:red;" id="id_line_num"></span> people are currently in line</p>
@@ -99,6 +96,7 @@
         window.onload = loadTime 
         window.setInterval(loadTime, 2000);
         window.onload = speedometer
+        // window.onload = imageGen
         // window.onload = needle
         
 

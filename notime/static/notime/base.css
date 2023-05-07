@@ -147,6 +147,12 @@ td {
     width: 80px !important;
 }
 
+#id_remaining_people {
+    color: #1e73ff;
+    font-weight: bold;
+}
+
+
 #id_sticky_note {
     width: 50%;
     background-color: #ed5565;

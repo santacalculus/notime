@@ -35,6 +35,9 @@ function updatePage(xhr) {
         needleAngle(numresponse, maxresponse)
         updateTime(response)
         
+        imageAdd(numresponse)
+        // imageNum(numresponse)
+        
     }
     if (xhr.status == 0) {
         displayError("Cannot connect to server")
@@ -94,48 +97,76 @@ function checkPrima() {
 
 }
 
-function checkExchange() {
-    var d = new Date(); 
-    var hours = d.getHours();
-    var day = d.getDay();
-    let headerdiv = document.getElementById("id_exchange_head")
-    if(0 < day && day < 7) {
-        //console.log(day)
-        if (3 <= day && day <= 4) {
-            if (8 <= hours && hours <= 15) {
-                headerdiv.innerHTML = "OPEN"
-            }
-        }
-        if (day == 1) {
-            if (8 <= hours && hours <= 19) {
-                headerdiv.innerHTML = "OPEN"
-            }
-        }
-        if (day == 2) {
-            if (8 <= hours && hours <= 17) {
-                //console.log(hours)
-                
-                headerdiv.innerHTML = "OPEN"
-            }
-        }
-        if (day == 5) {
-            if (8 <= hours && hours <= 18) {
-                headerdiv.innerHTML = "OPEN"
-            }
-        }
-        if (day == 6) {
-            if (10 <= hours && hours <= 14) {
-                headerdiv.innerHTML = "OPEN"
-            }
-        }
-        else {
-            headerdiv.innerHTML = "CLOSED"
-        }
-    } else {
-        headerdiv.innerHTML = "CLOSED"
-    }
-
+function imageGen() {
+    let imgDiv = document.getElementById("id_image_container")
+    let img = document.createElement("img")
+    let imgURL = imgDiv.getAttribute("imgURL")
+    img.src = imgURL
+    img.id = "id_person_icon"
+    imgDiv.innerHTML += `<img src="${imgURL}" id="id_person_icon">`
 }
+
+function imageAdd(numresponse) {
+    let imgDiv = document.getElementById("id_image_container");
+    // Clear existing images
+    imgDiv.innerHTML = "";
+    if (numresponse < 9) {
+        for (let i = 1; i< numresponse; i++) {
+            imageGen()
+        }
+    }
+    else {
+        for (let i = 1; i < 8; i++) {
+            imageGen()
+        }
+        imgDiv.innerHTML += '<span id="id_remaining_people"> + ' + (numresponse -7) + ' people</span>'
+    }
+}
+
+// function checkExchange() {
+//     var d = new Date(); 
+//     var hours = d.getHours();
+//     var day = d.getDay();
+//     let headerdiv = document.getElementById("id_exchange_head")
+//     if(0 < day && day < 7) {
+//         //console.log(day)
+//         if (3 <= day && day <= 4) {
+//             if (8 <= hours && hours <= 15) {
+//                 headerdiv.innerHTML = "OPEN"
+//             }
+//         }
+//         if (day == 1) {
+//             if (8 <= hours && hours <= 19) {
+//                 headerdiv.innerHTML = "OPEN"
+//             }
+//         }
+//         if (day == 2) {
+//             if (8 <= hours && hours <= 17) {
+//                 //console.log(hours)
+                
+//                 headerdiv.innerHTML = "OPEN"
+//             }
+//         }
+//         if (day == 5) {
+//             if (8 <= hours && hours <= 18) {
+//                 headerdiv.innerHTML = "OPEN"
+//             }
+//         }
+//         if (day == 6) {
+//             if (10 <= hours && hours <= 14) {
+//                 headerdiv.innerHTML = "OPEN"
+//             }
+//         }
+//         else {
+//             headerdiv.innerHTML = "CLOSED"
+//         }
+//     } else {
+//         headerdiv.innerHTML = "CLOSED"
+//     }
+
+// }
+
+
 
 function speedometer() {
     var myDiv = document.getElementById("id_meter");
@@ -257,34 +288,7 @@ function needleAngle(numresponse, maxresponse) {
 }
 
 
-//         const needle = svg_semi.append("g")
-//             .attr("transform", `translate(${centerx},${centery}),rotate(45)`);
-
-//         needle.append("path")
-//             .attr("d", `M -10 0 L 0 -${radius - 20} L 10 0 Z`)
-//             .attr("fill", "#FFF67D")
-//             .attr("stroke", "#333")
-//             .attr("stroke-width", 1);
-
-//         needle.append("circle")
-//             .attr("cx", 0)
-//             .attr("cy", 0)
-//             .attr("r", 10)
-//             .attr("fill", "#FEDD00")
-//             .attr("stroke", "#333")
-//             .attr("stroke-width", 1);
-
-        // Rotate the needle to a given angle
-        // function setNeedleAngle(angle) {
-        //     needle.attr("transform", `translate(${centerx},${centery}) rotate(${angle})`);
-        // }
-
-        // // Example: rotate the needle to 45 degrees
-        // setNeedleAngle(Math.PI/4);
 
 
-        
-        // var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        // svg.setAttribute("width", colWidth);
-        // svg.setAttribute("height", rowHeight);
-        
+
+
