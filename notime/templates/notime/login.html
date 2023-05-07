@@ -1,0 +1,31 @@
+{% extends "notime/base.html" %}
+
+{% block user-info %}
+<span id="id_user_name">don't have an account?
+<a href="{% url 'register' %}" id="id_register_link" class="btn">
+        register
+</a>
+</span>
+    
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center" id="id_page_name">
+        login
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+        <form method="post" action="{% url 'login' %}">
+            <table class="login-table">
+                {{form}}
+            </table>
+            <br>
+            {% csrf_token %}
+            <div>
+                <button type="submit" id="id_login_button" class="btn">submit</button>
+            </div>
+        </form>
+    </div>
+    </div>
+{% endblock %}

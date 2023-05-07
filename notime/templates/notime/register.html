@@ -1,0 +1,42 @@
+{% extends "notime/base.html" %}
+
+{% block user-info %}
+    <span id="id_user_name">already have an account?
+        <a href="{% url 'login' %}" id="id_login_link" class="btn">
+                login
+        </a>
+        </span>
+        
+    
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center" id="id_page_name">
+        Register
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <form method="post" action="{% url 'register' %}" class="input-box">
+                <table class="login-table">
+                    {% for field in form.visible_fields %}
+                        <tr>
+                            <td>{{field.label_tag}}</td>
+                            <td>{{field}}</td>
+                            <td class="errorlist">
+                                {% for error in field.errors %} {{error}} {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                {% csrf_token %}
+                <button id="id_register_button" type="submit" class="btn">submit</button>
+            </form>
+        </div>
+    </div>
+    {% for error in form.non_field_errors %}
+        <p class="errorlist">
+            {{ error }}
+        </p>
+    {% endfor %}
+{% endblock %}

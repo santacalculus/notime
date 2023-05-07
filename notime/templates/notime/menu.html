@@ -1,0 +1,86 @@
+{% extends "notime/base.html" %}
+
+{% block user-info %}
+    <span id="id_user_name">
+        welcome, {{request.user.first_name}} {{request.user.last_name}}!<br>
+        <a href="{% url 'logout' %}" id="id_nav_logout" class="btn">
+                logout
+        </a>
+    </span>
+{% endblock %}
+
+{% block content %}
+    <div class="box-container" id="cards_container">
+        <div class="row align-items-center">
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 70%;">
+                    <div class="card-header" id="id_prima_head">
+
+                    </div>
+                    <div class="card-body">
+                    <h5 class="card-title">La Prima</h5>
+                    <p class="card-text">The coffee shop is located in the atrium of Wean Hall.</p>
+                    <a href="{% url 'laprima' %}" class="btn">Wait time</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 70%;height: 100%">
+                    <div class="card-header" id="id_exchange_head">
+
+                    </div>
+                    <div class="card-body">
+                    <h5 class="card-title">The Exchange</h5>
+                    <p class="card-text">Sandwiches and Wraps in Posner Hall.</p>
+                    <a href="{% url 'laprima' %}" class="btn">Wait time</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 70%;height:100%">
+                    <div class="card-body">
+                    <h5 class="card-title">Rohr Cafe</h5>
+                    <p class="card-text">Burgers and sub options at Tepper Quad</p>
+                    <a href="{% url 'laprima' %}" class="btn">Wait time</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row align-items-center">
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 70%;height:100%">
+                        <div class="card-body">
+                        <h5 class="card-title">Au Bon Pain</h5>
+                        <p class="card-text">Baked goods and sandwiches at the UC</p>
+                        <a href="{% url 'laprima' %}" class="btn">Wait time</a>
+                        </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 70%;height:100%">
+                        <div class="card-body">
+                        <h5 class="card-title">Entropy</h5>
+                        <p class="card-text">CMU's on-campus convenience store</p>
+                        <a href="{% url 'laprima' %}" class="btn">Wait time</a>
+                        </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 70%;height:100%">
+                        <div class="card-body">
+                        <h5 class="card-title">Millie's</h5>
+                        <p class="card-text">Ice cream!! Coffee!! Gelato!! Milkshakes!!</p>
+                        <a href="{% url 'laprima' %}" class="btn">Wait time</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = checkPrima
+        // window.onload = checkExchange
+    </script>
+{% endblock %}

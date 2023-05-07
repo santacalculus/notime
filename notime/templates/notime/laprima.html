@@ -1,0 +1,354 @@
+{% extends "notime/base.html" %}
+
+{% block user-info %}
+    <span id="id_user_name">
+        welcome, {{request.user.first_name}} {{request.user.last_name}}!
+    </span>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="row">
+            {% load static %}
+        <div class="col" id="id_left_container">
+            <div class="receipt-container">
+                <h2>La Prima</h2>
+                <p id="id_location">WEAN HALL, fifth floor</p>
+                <p>DATE: MONDAY, APRIL 3, 2023</p>
+                <table class="tracks">
+                    <thead>
+                        <tr>
+                            <td class="begin"> QTY </td>
+                            <td class="name"> ITEM </td>
+                            <td class="length"> AMT </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="begin" style="font-weight: 500;"> 01 </td>
+                            <td class="name" style="font-weight: 500;"> THE TIME NOW IS </td>
+                            <td class="length" id="id_creation_time"> 10:10 AM </td>
+                        </tr>
+                        <tr>
+                            <td class="begin"> 02 </td>
+                            <td class="name" style="font-weight: 700;"> CURRENT WAIT TIME</td>
+                            <td class="length" style="font-weight: 700;"><span id="id_predicted_time" style="font-weight: 700;"></span> secs</td>
+                        </tr>
+                        <tr>
+                            <td class="begin"> 03 </td>
+                            <td class="name" style="font-weight: 700; color: red;"> ARRIVING NOW?</td>
+                            <td class="length"></td>
+                        </tr>
+                        <tr>
+                            <td class="begin" style="border-top: 1px dashed;
+                            border-bottom: 1px dashed;"></td>
+                            <td class="name" style="font-size: 1.5rem;
+                            font-weight: 700;
+                            color: red;
+                            border-top: 1px dashed;
+                            border-bottom: 1px dashed;">
+                            YOU MAY BE WAITING UNTIL</td>
+                            <td class="length" id="id_final_time"> 10:15 AM </td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% load static %}
+                <div class="row">
+                    <div class="col-4">
+                        <img src="{% static 'notime/myproject.png' %}"  id="id_user_picture">
+                    </div>
+                    <div class="col-8" id="id_image_container">
+                        
+                        
+                        
+                    </div>
+                    
+                    <p style="font-weight:700; text-align: center;"><span style="font-size: 250%; color:red;" id="id_line_num"></span> people are currently in line</p>
+                </div>
+                
+                
+    
+        </div>
+        </div>
+        <div class="col">
+            <div class="row" id="id_meter">
+               
+            </div>
+            <div class="row-2" style="text-align:center; font-weight:700; color: white;">How busy is the line at La Prima right now?</div>
+            <div class="row">
+                <div class="col">
+                        
+                        
+                        <!-- <img src="{% static 'notime/personicon.png' %}"  id="id_person_icon"> -->
+                </div>
+                <!-- <div class="col" id="id_sticky_note">
+                    <div class="row justify-content-center">
+                    <span id="id_line_num">5</span>
+                    </div>
+                    <div class="row justify-content-center" id="id_sticky_text">
+                        people are currently in line
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        const getURL = "{% url 'get-num' %}"
+        window.onload = loadTime 
+        window.setInterval(loadTime, 2000);
+        window.onload = speedometer
+        // window.onload = needle
+        
+
+        
+        // var c = document.getElementById("myCanvas");
+        // var ctx = c.getContext("2d");
+        // var x = c.width / 2;
+        // var y = 3 * c.height/4 +10;
+        // var r = c.width/3;
+        
+        // var myDiv = document.getElementById("id_meter");
+        // var colWidth = myDiv.getBoundingClientRect(). width;
+        // var rowHeight = colWidth/2;
+
+        // const svg_semi = d3.select(myDiv)
+        //     .append("svg")
+        //     .attr("width", colWidth)
+        //     .attr("height", rowHeight)
+        
+        // const centerx = colWidth/2;
+        // const centery = rowHeight*0.9;
+        // const radius = rowHeight*0.8;
+
+        // // Define the gradient colors
+        // const gradientColors = d3.interpolate(d3.rgb("#00FF00"), d3.rgb("#FF0000"));
+
+        // // Create the gradient
+        // const gradient = svg_semi.append("defs")
+        //     .append("linearGradient")
+        //     .attr("id", "gradient")
+        //     .attr("x1", "0%")
+        //     .attr("y1", "0%")
+        //     .attr("x2", "100%")
+        //     .attr("y2", "0%");
+
+        // gradient.append("stop")
+        //     .attr("offset", "0%")
+        //     .attr("stop-color", gradientColors(0))
+        //     .attr("stop-opacity", 1);
+
+        // gradient.append("stop")
+        //     .attr("offset", "100%")
+        //     .attr("stop-color", gradientColors(1))
+        //     .attr("stop-opacity", 1);
+
+        // // // Create the arc with gradient fill
+        // // const arc = d3.arc()
+        // //     .startAngle(-Math.PI/2)
+        // //     .endAngle(Math.PI/2)
+        // //     .innerRadius(radius*0.8)
+        // //     .outerRadius(radius)
+        // //     .cornerRadius(radius/10);
+
+        // // svg_semi.append("path")
+        // //     .attr("transform", `translate(${centerx}, ${centery})`)
+        // //     .attr("d", arc)
+        // //     .style("fill", "url(#gradient)")
+        // //     .attr("stroke", "#333")
+        // //     .attr("stroke-width", 3);
+
+
+
+        // const arc = d3.arc()
+        //     .startAngle(-Math.PI/2)
+        //     .endAngle(Math.PI/2)
+        //     .innerRadius(radius*0.8)
+        //     .outerRadius(radius)
+        //     .cornerRadius(radius/10);
+        
+        // svg_semi.append("path")
+        // .attr("transform", `translate(${centerx}, ${centery})`)
+        // .attr("d", arc)
+        // .attr("fill", "url(#gradient)")
+        // .attr("stroke", "#333")
+        // .attr("stroke-width", 3);
+
+        
+
+        // const needle = svg_semi.append("g")
+        //     .attr("transform", `translate(${centerx},${centery}),rotate(45)`);
+
+        // needle.append("path")
+        //     .attr("d", `M -10 0 L 0 -${radius - 20} L 10 0 Z`)
+        //     .attr("fill", "#FFF67D")
+        //     .attr("stroke", "#333")
+        //     .attr("stroke-width", 1);
+
+        // needle.append("circle")
+        //     .attr("cx", 0)
+        //     .attr("cy", 0)
+        //     .attr("r", 10)
+        //     .attr("fill", "#FEDD00")
+        //     .attr("stroke", "#333")
+        //     .attr("stroke-width", 1);
+
+        // Rotate the needle to a given angle
+        // function setNeedleAngle(angle) {
+        //     needle.attr("transform", `translate(${centerx},${centery}) rotate(${angle})`);
+        // }
+
+        // // Example: rotate the needle to 45 degrees
+        // setNeedleAngle(Math.PI/4);
+
+
+        
+        // var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        // svg.setAttribute("width", colWidth);
+        // svg.setAttribute("height", rowHeight);
+        
+        // Add the SVG element to the div
+        // myDiv.appendChild(svg);
+
+
+        // var x = colWidth/2;
+        // var y = rowHeight;
+        // var r = 7 * rowHeight/8;
+
+        // var needle = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        // needle.setAttribute("transform", `translate(${x},${y})`);
+
+        // // Create the needle path and add it to the group element
+        // var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        // path.setAttribute("d", `M -10 30 L 0 -${r - 20} L 10 30 Z`);
+        // path.setAttribute("fill", "black");
+
+        // var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        // circle.setAttribute("cx", 0);
+        // circle.setAttribute("cy", 0);
+        // circle.setAttribute("r", 10);
+        // circle.setAttribute("fill", "black");
+        
+
+
+        // needle.appendChild(path);
+        // needle.append(circle);
+        
+        // needle.append("path")
+        // .attr("d", `M -10 0 L 0 -${r - 20} L 10 0 Z`)
+        // .attr("fill", "black")
+        // .attr("transform", `rotate(45, 0, 0)`);
+
+        // needle.append("circle")
+        // .attr("cx", 0)
+        // .attr("cy", 0)
+        // .attr("r", 10)
+        // .attr("fill", "black");
+        // svg_semi.appendChild(needle);
+
+
+
+        // var gradient = ctx.createLinearGradient(x - r, y, x + r, y);
+        // gradient.addColorStop(0, '#00b050'); // green
+        // gradient.addColorStop(0.25, '#ffff00'); // yellow
+
+        
+        // gradient.addColorStop(0.75, '#ff9900'); // orange
+        // gradient.addColorStop(1, '#ff0000'); // red
+
+        // ctx.beginPath();
+        // ctx.arc(x, y, r, Math.PI, 0);
+        // ctx.strokeStyle = gradient;
+        // ctx.lineWidth = 18;
+        // ctx.stroke();
+
+        
+        
+
+        
+
+    
+        // ctx.beginPath()
+    
+        // ctx.moveTo(x, y)
+        // var leftX = x-r+8;
+        // var leftY = y;
+        // var gradient = ctx.createLinearGradient(x, y, leftX, leftY);
+        // gradient.addColorStop(0, '#ffffff'); // green
+        // gradient.addColorStop(1, '#00d050'); // red
+        // ctx.lineTo(leftX, leftY);
+        // ctx.strokeStyle = gradient;
+        // ctx.lineWidth = 1;
+        // ctx.stroke();
+        
+        
+        // ctx.beginPath()
+    
+        // ctx.moveTo(x, y)
+        // var quarterX = x+7 - r * Math.cos(Math.PI / 4);
+        // var quarterY = y+7 - r * Math.sin(Math.PI / 4);
+        // var gradient = ctx.createLinearGradient(x, y, quarterX, quarterY);
+        // gradient.addColorStop(0, '#ffffff'); // green
+        // gradient.addColorStop(1, '#92d050'); // red
+        // ctx.lineTo(quarterX, quarterY);
+        // ctx.strokeStyle = gradient;
+        // ctx.lineWidth = 1;
+        // ctx.stroke();
+
+        // ctx.beginPath()
+        // ctx.moveTo(x, y)
+        // var halfX = x - (r-8) * Math.cos(Math.PI / 2);
+        // var halfY = y - (r-8) * Math.sin(Math.PI / 2);
+        // var gradient = ctx.createLinearGradient(x, y, halfX, halfY);
+        // gradient.addColorStop(0, '#ffffff'); // green
+        // gradient.addColorStop(1, '#ffff00'); // red
+        // ctx.lineTo(halfX, halfY);
+        // ctx.strokeStyle = gradient;
+        // ctx.lineWidth = 1;
+        // ctx.stroke();
+
+        // ctx.beginPath()
+        // ctx.moveTo(x, y)
+        // var threeX = x - (r-8) * Math.cos(3 * Math.PI / 4);
+        // var threeY = y - (r-8) * Math.sin(3 * Math.PI / 4);
+        // var gradient = ctx.createLinearGradient(x, y, threeX, threeY);
+        // gradient.addColorStop(0, '#ffffff'); // green
+        // gradient.addColorStop(1, '#ff9900'); // red
+        // ctx.lineTo(threeX, threeY);
+        // ctx.lineWidth = 1;
+        // ctx.strokeStyle = gradient;
+        // ctx.stroke();
+
+
+
+        // ctx.beginPath()
+
+        // var gradient = ctx.createLinearGradient(x, y, x+r-8, y);
+        // gradient.addColorStop(0, '#ffffff'); // green
+        // gradient.addColorStop(1, '#ff0000'); // red
+
+        // ctx.moveTo(x, y)
+        
+        // ctx.lineTo(x+r-8, y);
+        // ctx.lineWidth = 1;
+        // ctx.strokeStyle = gradient;
+        // ctx.stroke();
+
+
+        // // draw the needle
+        // var angle = -Math.PI / 6; // angle of the needle (in radians)
+        // ctx.beginPath();
+        // ctx.moveTo(x - 10, y);
+        // ctx.lineTo(x, y - r);
+        // ctx.lineTo(x + 10, y);
+        // ctx.closePath();
+        // ctx.fillStyle = "black";
+        // ctx.fill();
+       
+    </script>
+
+
+    
+
+{% endblock %}

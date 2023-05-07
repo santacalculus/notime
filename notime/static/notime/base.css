@@ -1,0 +1,187 @@
+html{ 
+    height: 100%;
+}
+
+body{
+    height: 100%;
+    background: linear-gradient(#e66465, #9198e5);
+
+}
+
+#site_name{
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 3vw;
+    text-align: center;
+    margin-top: 1vw;
+}
+
+#id_nav_logout, #id_register_link, #id_login_link {
+    background-color:#9198e5;
+    color: white;
+}
+
+#id_nav_logout:hover, #id_register_link:hover, #id_login_link:hover {
+    background-color:#e66465;
+    color: white;
+}
+
+.login-table {
+    font-weight: 700;
+    color: white;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+
+}
+
+#id_page_name {
+    font-weight: 700;
+    color: #f6e2b9;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+
+}
+
+#id_user_name {
+    text-align: end;
+    color: white;
+    font-style: italic;
+    font-size: 100%;
+    margin-bottom: 3vw;
+    margin-right: 5px;
+}
+
+.btn {
+    background-color: #e66465;
+    color: white;
+    padding: 5px;
+}
+
+.btn:hover {
+    background-color:#9198e5;
+    color: white;
+}
+
+#id_left_container {
+    background-image: url(receipt.jpg);
+    background-position: center;
+    width: 50%;
+    filter: brightness(110%);
+    border-image: linear-gradient(#e66465, #9198e5);
+    border: 16px solid transparent;
+    border-image-slice: 1;
+    border-radius: 20px;
+    margin-right: 20px;
+    text-transform: uppercase;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 15px;
+    color: #1e73ff ;
+}
+
+#id_location{
+    font-size: 1rem;
+    text-align: center;
+}
+
+hr {
+    border: none;
+    border-top: 2px dashed black;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
+    margin-bottom: 1px;
+  }
+
+#id_curr_time {
+    font-weight: 600;
+}
+
+#id_just_time {
+    font-size: 2rem;
+}
+
+.tracks {
+    font-family: 'receipt', 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+}
+
+thead {
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+}
+
+td {
+    padding: 2px 10px;
+    vertical-align: top;
+}
+
+.begin {
+    padding-left: 0vh;
+}
+
+.length {
+    text-align: right;
+    padding-right: 0px;
+}
+
+#id_final_time {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: red;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+}
+
+#id_user_picture {
+    width: 150px !important;
+}
+
+#id_person_icon {
+    width: 80px !important;
+}
+
+#id_sticky_note {
+    width: 50%;
+    background-color: #ed5565;
+    padding: 1em;
+    -moz-box-shadow: 5px 5px 7px #212121;
+    -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+    box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+    -moz-transition: -moz-transform 0.15s linear;
+    -o-transition: -o-transform 0.15s linear;
+    -webkit-transition: -webkit-transform 0.15s linear;
+
+    -o-transform: rotate(2deg);
+    -webkit-transform: rotate(2deg);
+    -moz-transform: rotate(2deg);
+    position: relative;
+    top: 5px;
+}
+
+#id_line_num {
+    color: #f6e2b9;
+    font-size: 8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0px;
+    padding-bottom: 1px;
+}
+
+#id_sticky_text{
+    color: white;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-bottom: 1vw;
+    margin-top: 0px;
+    padding-top: 0px;
+    text-align: center;
+}
