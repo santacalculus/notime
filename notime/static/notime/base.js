@@ -209,7 +209,7 @@ function speedometer() {
     const arc = d3.arc()
         .startAngle(-Math.PI/2)
         .endAngle(Math.PI/2)
-        .innerRadius(radius*0.8)
+        .innerRadius(radius*0.5)
         .outerRadius(radius)
         .cornerRadius(radius/10);
         
@@ -263,7 +263,7 @@ function needleAngle(numresponse, maxresponse) {
     var angle = -90 + (180*numresponse/maxresponse);
     const needle = d3.select("#id_meter svg g");
     needle.transition()
-        .duration(500)
+        .duration(800)
         .attr("transform", `translate(${centerx},${centery}),rotate(${angle})`);
 
 
