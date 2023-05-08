@@ -114,28 +114,50 @@ def get_num_action(request) :
     line_data = Line.objects.latest('id').num_people
     # print("line_data",line_data)
     wait_data = WaitTime.objects.latest('id').wait_time
+
+    print(wait_time_scaler(WaitTime.objects.all().order_by('wait_time')))
     #creation_data = WaitTime.objects.latest('id').creation_time
-    creation_data = wait.creation_time
-    wait.creation_time = timezone.localtime(timezone.now())
+    # creation_data = wait.creation_time
+    
+    # wait.creation_time = timezone.localtime(timezone.now())
+    
+    curr_time = timezone.localtime(timezone.now())
+    print("creation_time",WaitTime.objects.latest('id').creation_time)
     today = date.today()
-    formatted_date = today.strftime("%B %d %Y")  
+    formatted_date = today.strftime('%B %d, %Y')  
     # print(wait.creation_time)
     wait.save()
-    final_data = timedelta(seconds=wait_data)+wait.creation_time #converting wait_time seconds to minutes+seconds
+    # final_data = timedelta(seconds=wait_data)+wait.creation_time #converting wait_time seconds to minutes+seconds
+    final_data = timedelta(seconds=wait_data)+curr_time
+
+    curr_time = curr_time.strftime("%I:%M:%S %p")
+
+    # print(curr_time)
     response_data = {}
     response_data['date'] = formatted_date
     response_data['num_people'] = Line.objects.latest('id').num_people
     response_data['max_people'] = Line.objects.latest('id').max_people
+    response_data['curr_time'] = curr_time
     response_data['wait_time'] = wait_data
     
-    print(response_data['date'])
-    response_data['creation_time'] = wait.creation_time.strftime('%H:%M:%S %p')
+    
+    # response_data['creation_time'] = wait.creation_time.strftime('%H:%M:%S %p')
     # print(response_data['creation_time'])
-    response_data['final_time'] = final_data.strftime('%H:%M:%S %p') #the time at which the wait ends
+    response_data['final_time'] = final_data.strftime('%I:%M:%S %p') #the time at which the wait ends
     #response_data['creation_time'] = WaitTime.objects.latest('id').creation_time
     response_json = json.dumps(response_data) 
     # print(response_data['max_people'])
     return HttpResponse(response_json, content_type='application/json')
+
+def wait_time_scaler(wait_objs) :
+    waity_axis = []
+    timex_axis = []
+    for i in range(len(wait_objs)) :
+        wait_time = wait_objs[i].wait_time
+        time = wait_objs[i].creation_time
+        waity_axis.append(wait_time)
+        timex_axis.append(time.minute + (time.second/100))
+    print(waity_axis, timex_axis)
 
 def _my_json_error_response(message, status=200):
     # You can create your JSON by constructing the string representation yourself (or just use json.dumps)
