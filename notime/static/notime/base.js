@@ -34,9 +34,11 @@ function updatePage(xhr) {
         // console.log(maxresponse)
         needleAngle(numresponse, maxresponse)
         updateTime(response)
-        
+        let waitscaleresponse = response.wait_scaler
+        averageTrend(waitscaleresponse)
         imageAdd(numresponse)
-        // imageNum(numresponse)
+        // pleaseDraw(waitscaleresponse)
+        
         
     }
     if (xhr.status == 0) {
@@ -57,6 +59,118 @@ function updatePage(xhr) {
     
 }
 
+function averageTrend(waitscaleresponse) {
+    var myDiv = document.getElementById("id_meter");
+    var colWidth = myDiv.getBoundingClientRect(). width;
+    var rowHeight = colWidth/3;
+
+    var margin = {top: 10, right: 40, bottom: 30, left: 80},
+        width = colWidth - margin.left - margin.right,
+        height = rowHeight - margin.top - margin.bottom;
+
+    d3.select("#id_graph").select("svg").remove();
+    // append the svg object to the body of the page
+    var svg = d3.select("#id_graph")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.bottom + margin.top)
+    .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+    svg.select("g").selectAll("*").remove();
+    
+
+    var data = Object.keys(waitscaleresponse).map(function(minute) {
+        return { minute: minute, average: waitscaleresponse[minute] };
+    });
+
+    var x = d3.scaleBand()
+    .domain(data.map(function(d) { return d.minute; }))
+    .range([0, width])
+    .padding(0.2);
+
+    svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+    // var x = d3.scale.ordinal()
+    // .domain(d3.extent(data, function(d) { return +d.minute; }))
+    // // .domain(data.map(function(d) { return d.minute; }))
+    // .range([ 0, colWidth - margin.left - margin.right ]);
+    // svg.append("g")
+    // .attr("transform", "translate(0," + height + ")")
+    // .call(d3.axisBottom(x)
+    // .tickValues(data.map(function(d) { return d.minute; })));
+    
+
+
+    // Add Y axis
+    var y = d3.scaleLinear()
+    .domain([0, d3.max(data, function(d) { return +d.average; })])
+    .range([ rowHeight - margin.top - margin.bottom, 0 ]);
+    svg.append("g")
+    .call(d3.axisLeft(y));
+
+    // Add the line
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.minute) })
+        .y(function(d) { return y(d.average) })
+    );
+
+}
+
+
+
+// function drawAxes(range_mat) {
+//     var myDiv = document.getElementById("id_graph");
+//     var colWidth = myDiv.getBoundingClientRect(). width;
+//     var rowHeight = colWidth/2;
+
+//     var svg = d3.select("#id_graph svg")
+//     // create svg element
+    
+//     console.log("here")
+//     svg = d3.select("#id_graph")
+//     .append("svg")
+//     .attr("width", colWidth)
+//     .attr("height", rowHeight+50)
+//     .append("g")
+//     .attr("id","bottom")
+//     .attr("transform", `translate(0,${rowHeight - 50})`)
+//     .append("g")
+//     .attr("id", "left")
+//     // .attr("transform", `translate($0,${rowHeight + 50})`)
+//     .attr("transform", `translate(${colWidth/4},0)`)
+        
+    
+//     console.log(rowHeight)
+//     var y = d3.scaleLinear()
+//      .domain(range_mat)         // This is what is written on the Axis: from 0 to 100
+//      .range([50,- rowHeight + 100]);
+     
+//      svg.select("#left").call(d3.axisLeft(y));
+//      // Draw the axis
+
+     
+//     var x = d3.scaleLinear()
+//      .domain([0,200])
+//      .range([0, 250]); // Position the x-axis at the center of the chart
+    
+    
+//     svg.select("#bottom").call(d3.axisBottom(x));
+
+     
+    
+// }
+
+
+
+
 function updateTime(response) {
     let waitresponse = response.wait_time
     let waitdiv = document.getElementById("id_predicted_time")
@@ -71,6 +185,7 @@ function updateTime(response) {
     let date = response.date
     let datediv = document.getElementById("id_date_today")
     datediv.innerHTML = date
+    
     
 }
 
@@ -241,48 +356,7 @@ function imageAdd(numresponse) {
     }
 }
 
-// function checkExchange() {
-//     var d = new Date(); 
-//     var hours = d.getHours();
-//     var day = d.getDay();
-//     let headerdiv = document.getElementById("id_exchange_head")
-//     if(0 < day && day < 7) {
-//         //console.log(day)
-//         if (3 <= day && day <= 4) {
-//             if (8 <= hours && hours <= 15) {
-//                 headerdiv.innerHTML = "OPEN"
-//             }
-//         }
-//         if (day == 1) {
-//             if (8 <= hours && hours <= 19) {
-//                 headerdiv.innerHTML = "OPEN"
-//             }
-//         }
-//         if (day == 2) {
-//             if (8 <= hours && hours <= 17) {
-//                 //console.log(hours)
-                
-//                 headerdiv.innerHTML = "OPEN"
-//             }
-//         }
-//         if (day == 5) {
-//             if (8 <= hours && hours <= 18) {
-//                 headerdiv.innerHTML = "OPEN"
-//             }
-//         }
-//         if (day == 6) {
-//             if (10 <= hours && hours <= 14) {
-//                 headerdiv.innerHTML = "OPEN"
-//             }
-//         }
-//         else {
-//             headerdiv.innerHTML = "CLOSED"
-//         }
-//     } else {
-//         headerdiv.innerHTML = "CLOSED"
-//     }
 
-// }
 
 
 
@@ -423,26 +497,9 @@ function needleAngle(numresponse, maxresponse) {
         .duration(800)
         .attr("transform", `translate(${centerx},${centery}),rotate(${angle})`);
 
-
-    // var myDiv = document.getElementById("id_meter");
-    // var colWidth = myDiv.getBoundingClientRect(). width;
-    // var rowHeight = colWidth/2;
-
-    // const svg_semi = d3.select(myDiv).select("svg");
-
-    // const centerx = colWidth/2;
-    // const centery = rowHeight*0.9;
-    // const radius = rowHeight*0.8;
-    
-    // const needle = svg_semi.append("g");
-    // let angle = - 90 + (180 * numresponse/maxresponse);
-    // console.log("what",angle)
-    // needle.transition()
-    // .duration(1000)
-    // .ease(d3.easeElastic)
-    // .attr("transform", `translate(${centerx},${centery}),rotate(30)`);
-
 }
+
+
 
 
 

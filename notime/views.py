@@ -115,7 +115,7 @@ def get_num_action(request) :
     # print("line_data",line_data)
     wait_data = WaitTime.objects.latest('id').wait_time
 
-    print(wait_time_scaler(WaitTime.objects.all().order_by('wait_time')))
+    # print(wait_time_scaler(WaitTime.objects.all().order_by('wait_time')))
     #creation_data = WaitTime.objects.latest('id').creation_time
     # creation_data = wait.creation_time
     
@@ -139,6 +139,8 @@ def get_num_action(request) :
     response_data['max_people'] = Line.objects.latest('id').max_people
     response_data['curr_time'] = curr_time
     response_data['wait_time'] = wait_data
+    response_data['wait_scaler'] = wait_time_scaler(WaitTime.objects.all().order_by('wait_time'))
+    print(response_data['wait_scaler'])
     
     
     # response_data['creation_time'] = wait.creation_time.strftime('%H:%M:%S %p')
@@ -149,15 +151,52 @@ def get_num_action(request) :
     # print(response_data['max_people'])
     return HttpResponse(response_json, content_type='application/json')
 
+#returns a dictionary with minutes as keys and averages as values
 def wait_time_scaler(wait_objs) :
-    waity_axis = []
-    timex_axis = []
+    res = {}
     for i in range(len(wait_objs)) :
         wait_time = wait_objs[i].wait_time
         time = wait_objs[i].creation_time
-        waity_axis.append(wait_time)
-        timex_axis.append(time.minute + (time.second/100))
-    print(waity_axis, timex_axis)
+        if time.hour not in res :
+            hour = {}
+            if time.minute not in hour :
+                hour[time.minute] = [wait_time, 1]
+            else :
+                hour[time.minute][0] += wait_time
+                hour[time.minute][1] += 1
+            res[time.hour] = hour
+        else :
+            hour = res[time.hour]
+            if time.minute in hour :
+                hour[time.minute][0] += wait_time
+                hour[time.minute][1] += 1
+            else :
+                hour[time.minute] = [wait_time, 1]
+    # print(res)
+    new_res = {}
+    for hour in res :
+        for minute in res[hour] :
+            
+            total_wait_time = (res[hour])[minute][0]
+            count = (res[hour])[minute][1]
+            average_wait_time = total_wait_time / count
+            (new_res[hour + (minute/100)]) = average_wait_time
+    new_res = dict(sorted(new_res.items(), key=lambda x: (x[0])))
+    return new_res
+
+
+    #     if time.minute not in res :
+    #         res[time.minute] = [wait_time, 1]
+    #     else :
+    #         res[time.minute][0] += wait_time
+    #         res[time.minute][1] += 1
+    # for minute in res:
+    #     total_wait_time = res[minute][0]
+    #     count = res[minute][1]
+    #     average_wait_time = total_wait_time / count
+    #     res[minute] = average_wait_time
+    # return res
+    
 
 def _my_json_error_response(message, status=200):
     # You can create your JSON by constructing the string representation yourself (or just use json.dumps)
